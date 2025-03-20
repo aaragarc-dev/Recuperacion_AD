@@ -4,6 +4,9 @@ import lombok.Getter;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
+/**
+ * Clase utilitaria para la gestión de la fábrica de sesiones de Hibernate.
+ */
 public class HibernateUtils {
     @Getter
     private static SessionFactory sessionFactory;
@@ -16,4 +19,5 @@ public class HibernateUtils {
 
     }
 }
+
 

@@ -8,22 +8,37 @@ import org.hibernate.Transaction;
 
 import java.util.List;
 
+/**
+ * Servicio de datos para gestionar operaciones con restaurantes y reseñas.
+ */
 public class DataService {
 
     private final SessionFactory sessionFactory;
 
+    /**
+     * Constructor del servicio de datos.
+     *
+     * @param sessionFactory la fábrica de sesiones de Hibernate
+     */
     public DataService(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
     }
 
-    //AÑADIR UN RESTAURANTE
-
+    /**
+     * Añadir un restaurante.
+     *
+     * @param restaurante el restaurante a añadir
+     */
     public void addRestaurante(Restaurante restaurante) {
         sessionFactory.inTransaction(session -> session.persist(restaurante));
     }
 
-    //AÑADIR UNA RESEÑA A UN RESTAURANTE ESPECÍFICO
-
+    /**
+     * Añadir una reseña a un restaurante específico.
+     *
+     * @param reseña el objeto reseña a añadir
+     * @param restauranteId el ID del restaurante al que se añadirá la reseña
+     */
     public void addReseña(Reseña reseña, Integer restauranteId) {
         sessionFactory.inTransaction(session -> {
             Restaurante restaurante = session.get(Restaurante.class, restauranteId);
@@ -35,8 +50,12 @@ public class DataService {
         });
     }
 
-    //  LISTAR TODOS LOS RESTAURANTES CON BAJA VALORACIÓN
-
+    /**
+     * Listar todos los restaurantes con baja valoración.
+     *
+     * @param valoracion la valoración máxima para filtrar restaurantes
+     * @return una lista de restaurantes con valoración menor o igual a la especificada
+     */
     public List<Restaurante> getRestauranteByValoracion(int valoracion) {
         try (Session session = sessionFactory.openSession()) {
             return session.createQuery(
@@ -45,16 +64,24 @@ public class DataService {
         }
     }
 
-    //  OBTENER UN RESTAURANTE POR ID
-
+    /**
+     * Obtener un restaurante por su ID.
+     *
+     * @param id el ID del restaurante
+     * @return el restaurante con el ID especificado, o null si no se encuentra
+     */
     public Restaurante getRestauranteById(int id) {
         try (Session session = sessionFactory.openSession()) {
             return session.get(Restaurante.class, id);
         }
     }
 
-    // OBTENER UNA RESEÑA POR UN USUARIO ESPECÍFICO
-
+    /**
+     * Obtener reseñas por un usuario específico.
+     *
+     * @param usuario el nombre del usuario
+     * @return una lista de reseñas escritas por el usuario especificado
+     */
     public List<Reseña> getReseñaByUsuario(String usuario) {
         try (Session session = sessionFactory.openSession()) {
             return session.createQuery("FROM Reseña r WHERE r.usuario = :usuario", Reseña.class)
@@ -63,8 +90,11 @@ public class DataService {
         }
     }
 
-    //DETECTAR USUARIOS SOSPECHOSOS
-
+    /**
+     * Detectar usuarios sospechosos.
+     *
+     * @return una lista de nombres de usuarios que han escrito más de 3 reseñas con valoración menor o igual a 1
+     */
     public List<String> getUsuariosSospechosos() {
         try (Session session = sessionFactory.openSession()) {
             return session.createQuery(

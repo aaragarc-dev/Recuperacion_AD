@@ -8,7 +8,9 @@ import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
 import java.util.List;
-
+/**
+ * Clase principal para ejecutar las operaciones del servicio de datos y archivo.
+ */
 public class Main {
     public static void main(String[] args) {
         //Inicializar Hibernate

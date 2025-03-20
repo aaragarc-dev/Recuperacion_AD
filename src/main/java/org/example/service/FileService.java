@@ -8,8 +8,16 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+/**
+ * Servicio para importar restaurantes desde un archivo CSV y guardarlos en la base de datos.
+ */
 public class FileService {
 
+    /**
+     * Importa restaurantes desde un archivo CSV.
+     *
+     * @param filePath la ruta del archivo CSV
+     */
     public void importRestaurantesFromCSV(String filePath) {
         File file = new File(filePath);
         ArrayList<Restaurante> restaurantes = new ArrayList<>();
@@ -29,6 +37,11 @@ public class FileService {
         saveToDatabase(restaurantes);
     }
 
+    /**
+     * Guarda una lista de restaurantes en la base de datos.
+     *
+     * @param restaurantes la lista de restaurantes a guardar
+     */
     private void saveToDatabase(ArrayList<Restaurante> restaurantes) {
         String sql = "INSERT INTO Restaurante (nombre, ciudad) VALUES (?, ?)";
 
